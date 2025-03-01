@@ -1,0 +1,25 @@
+services:
+  server:
+    container_name: lb2-tcp-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    command: ["npm", "run","start"]
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/usr/src/lb2/tcp/server
+
+
+  client:
+    container_name: lb2-tcp-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    command: ["npm", "run","start"]
+    ports:
+      - "3300:3300"
+    volumes:
+      - ./client:/usr/src/lb2/tcp/client
+    depends_on:
+      - server

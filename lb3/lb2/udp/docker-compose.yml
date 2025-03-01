@@ -1,0 +1,25 @@
+services:
+  server:
+    container_name: lb2-udp-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    command: ["npm", "run", "start"]
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./server:/usr/src/lb2/udp/server
+
+
+  client:
+    container_name: lb2-udp-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    command: ["npm", "run","start"]
+    ports:
+      - "4400:4400"
+    volumes:
+      - ./client:/usr/src/lb2/udp/client
+    depends_on:
+      - server
